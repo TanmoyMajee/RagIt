@@ -6,9 +6,10 @@ const createUserTable = async () : Promise<void> =>{
               id SERIAL PRIMARY KEY,
               NAME VARCHAR(20) NOT NULL,
               EMAIL VARCHAR(25) UNIQUE NOT NULL,
+              PASSWORD VARCHAR(20) NOT NULL,
               created_at TIMESTAMP DEFAULT NOW()  )`
     try{
-        pool.query(qur);
+        await pool.query(qur);
         console.log("USER Table Create Successfuly if not exists")
     } catch(error : any){
         console.log(error);
