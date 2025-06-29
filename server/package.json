@@ -28,7 +28,7 @@
   "dependencies": {
     "@huggingface/inference": "^2.8.1", 
     "@huggingface/transformers": "^3.5.2",
-    "@langchain/community": "^0.3.45",
+    "@langchain/community": "0.3.45",
     "@langchain/core": "^0.3.57",
     "@langchain/qdrant": "^0.1.2",
     "@qdrant/js-client-rest": "^1.14.1",
