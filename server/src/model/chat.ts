@@ -10,8 +10,8 @@ export const CreateChatTable = async (): Promise<void> => {
   )`;
   try {
     await pool.query(qur);
-    console.log('Chunk Table Created Successfully (if not exists)');
+    console.log('Chat Table Created Successfully (if not exists)');
   } catch (e: any) {
-    console.log('Chunk Table Creation error:', e);
+    console.log('Chat Table Creation error:', e);
   }
 }

@@ -1,7 +1,7 @@
 import pool from '../config/db'
 
 export const CreateFileTable = async (): Promise<void> => {
-  const qur = `CREATE TABLE IF NOT EXISTS file ( 
+  const qur = `CREATE TABLE IF NOT EXISTS files ( 
     id SERIAL PRIMARY KEY,
     downloadurl VARCHAR(300) NOT NULL,
     imageurl VARCHAR(300),

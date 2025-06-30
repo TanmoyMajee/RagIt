@@ -6,35 +6,32 @@ import {CreateAllTable} from './config/createAllTable'
 import fileRouter from './routes/fileUpload'
 import queryRouter from './routes/querryRoutes'
 const app = express();
+import prisma from './DataBase/db';
 
 
 // Middleware to parse JSON
 app.use(express.json()); 
 
-// try llm 
-// const llm = new HuggingFaceInference({
-//   apiKey : process.env.HuggingFace_API_KEY,
-//   model: "HuggingFaceH4/zephyr-7b-beta",
-//   maxRetries: 2,
-//   // timeout: 15000, // Reduced timeout
-//   maxTokens: 512,
-//   temperature: 0.1,
-// })
 
-// const llmTest = async ()=>{
-//   try {
-//     const result = await llm.invoke('Hi What is the Weatcher of Kolkata');
-//     console.log(result);
-//   } catch (error : any) {
-//     console.log(error)
-//   }
-    
-// }
-// llmTest();
-
-app.get('/',(req:Request,res:Response)=>{
+app.get('/',async (req:Request,res:Response)=>{
     res.status(200).json({msg:"Welcome to rag pdf reader "});
 })
+
+app.get('/create', async (req: Request, res: Response) => {
+  const newtest = await prisma.test.create({
+    data: {
+      name: 'test',
+      email: 'tset@gamil'
+    }
+  })
+  res.status(200).json({ new: newtest , msg:"success" });
+})
+
+app.get('/test', async (req: Request, res: Response) => { 
+  const newtest = await prisma.test.findMany({});
+  res.status(200).json({ new: newtest, msg: "success" });
+}) 
+
 
 const pgtest = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -98,7 +95,7 @@ app.use('/query',queryRouter);
 
 
 const startServer = async () => {
-  await CreateAllTable(); // Ensure tables exist Before atarting the server
+  // await CreateAllTable(); // Ensure tables exist Before atarting the server
   app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
   });
