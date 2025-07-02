@@ -6,6 +6,7 @@ import {CreateAllTable} from './config/createAllTable'
 import fileRouter from './routes/fileUpload'
 import queryRouter from './routes/querryRoutes'
 const app = express();
+import authRoutes from './routes/authRoutes'
 import prisma from './DataBase/db';
 
 
@@ -17,20 +18,20 @@ app.get('/',async (req:Request,res:Response)=>{
     res.status(200).json({msg:"Welcome to rag pdf reader "});
 })
 
-app.get('/create', async (req: Request, res: Response) => {
-  const newtest = await prisma.test.create({
-    data: {
-      name: 'test',
-      email: 'tset@gamil'
-    }
-  })
-  res.status(200).json({ new: newtest , msg:"success" });
-})
+// app.get('/create', async (req: Request, res: Response) => {
+//   const newtest = await prisma.test.create({
+//     data: {
+//       name: 'test',
+//       email: 'tset@gamil'
+//     }
+//   })
+//   res.status(200).json({ new: newtest , msg:"success" });
+// })
 
-app.get('/test', async (req: Request, res: Response) => { 
-  const newtest = await prisma.test.findMany({});
-  res.status(200).json({ new: newtest, msg: "success" });
-}) 
+// app.get('/test', async (req: Request, res: Response) => { 
+//   const newtest = await prisma.test.findMany({});
+//   res.status(200).json({ new: newtest, msg: "success" });
+// }) 
 
 
 const pgtest = async (req: Request, res: Response): Promise<void> => {
@@ -90,6 +91,8 @@ app.get('/user1',userInsert);
 app.get('/deluser',deluser);
 // Start the server
 
+
+app.use('/api/auth',authRoutes);
 app.use('/file',fileRouter);
 app.use('/query',queryRouter); 
 
