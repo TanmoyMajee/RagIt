@@ -7,19 +7,66 @@ import { createRetrievalChain } from "langchain/chains/retrieval";
 import { HuggingFaceInference } from "@langchain/community/llms/hf"; 
 
 import { ChatPromptTemplate } from "@langchain/core/prompts";
+import {z} from 'zod';
+import prisma from '../../DataBase/db';
+import {CustomHuggingFaceLLM} from '../../config/customLLM'
+// import { LLM } from "@langchain/core/language_models/llms";
+
+// import { ChatHuggingFace } from "@langchain/community/chat_models/huggingface";
+// import { ChatHuggingFace } from "langchain/chat_models/huggingface";
+
 // import { ChatHuggingFace } from "@langchain/community/chat_models/huggingface"; 
 // import { ChatOpenAI } from "@langchain/openai";
 // import { HuggingFaceHub } from "@langchain/community/llms/huggingface";
 
-// console.log(process.env.HuggingFace_API_KEY)
+
+const querySchema = z.object({
+      query:z.string().min(1,'Must Provide the query'),
+    conversationsId:z.number()
+})
+
+
 
 
 
 export const getQueryAns = async (req:Request, res:Response) :Promise<void> => {
-  const { query, conversationsId } = req.body;
-  
+ 
   try {
+
+    const { query, conversationsId } = querySchema.parse(req.body);
+
+    // chek is the uer is the owner of that conversation
+    const DbSession = await prisma.conversation.findUnique({
+      where:{
+        id:conversationsId 
+      },
+      select:{
+        userId:true
+      }
+    })
+
+    if (DbSession?.userId!==req.user.id){
+      res.status(200).json({msg:"You are not part of this conversation , cant acces this"});
+      return;
+    }
+
+    // entry in DB for Human
+    const HumanMsg = await prisma.message.create({
+      data:{
+        content:query,
+        sender:"HUMAN",
+        conversationId:conversationsId
+        // contex will generate form quadrant result so while sotring the res msg we store the contex
+      }
+    })
+
+    // const vectorStore = await getVectorStore(`conversation_${conversationsId}`);
     const vectorStore = await getVectorStore('tanmoy_cv_001');
+
+    if(!vectorStore){
+      res.status(200).json({msg: 'Vector store is not created Upload a file to satrt conversation'})
+      return;
+    }
 
     console.log("🔍 Setting up retriever...");
     const retriever = vectorStore.asRetriever({
@@ -29,20 +76,18 @@ export const getQueryAns = async (req:Request, res:Response) :Promise<void> => {
 
  
 
-     const llm = new HuggingFaceInference({
-          apiKey: process.env.API_KEY,
-          model: "HuggingFaceH4/zephyr-7b-beta",
-          // model:"gpt2",
-          maxRetries: 2,
-          // timeout: 15000, // Reduced timeout
-          // provider:"hf-inference",
-          maxTokens: 512,
-          temperature: 0.1,
-        });
+    const llm = new CustomHuggingFaceLLM({
+      apiKey: process.env.API_KEY!,
+      model: "deepseek/deepseek-v3-0324",
+      maxTokens: 512,
+      temperature: 0.1,
+      provider: "novita",
+      maxRetries: 2,
+    });
 //     // Test the model with a simple prompt
-      //   console.log("🧪 Testing model...");
-      // const result1 =   await llm.invoke("Hello, how are you?"); 
-      // console.log(result1);
+        console.log("🧪 Testing model...");
+      const result1 =   await llm.invoke("Hello, how are you?"); 
+      console.log(result1);
         
     
 
@@ -75,16 +120,53 @@ Answer:`);
     console.log("✅ RAG system ready!");
     const result = await retrievalChain.invoke({ input: query });
     console.log(result);
-    res.status(200).json({ res: result });
+
+    // entry in DB for Ai response
+    const context = result.context.map(item => item.pageContent);
+    const AiRespose = await prisma.message.create({
+      data: {
+        content: result.answer,
+        sender: "AI",
+        conversationId: conversationsId,
+        // contex will generate form quadrant result so while sotring the res msg we store the contex
+        contextChunks:context
+      }
+    })
+
+    res.status(200).json({ res: result , HumanMsg : HumanMsg , AiRespose:AiRespose });
     // res.send(result1);
 
   } catch (err:any) {
+
+    // cath the zod error
+    if (err instanceof z.ZodError) {
+      res.status(400).json({ message: "Validation error", errors: err.errors });
+      return;
+    }
+
     console.log('Error in Query Route:', err);
     res.status(500).json({ msg: 'Something Went Wrong', error: err.message });
   }
 };
 
 
+
+
+
+
+//  const llm = new HuggingFaceInference({
+//       apiKey: process.env.API_KEY,
+//       // model: "HuggingFaceH4/zephyr-7b-beta",
+//    model: "microsoft/DialoGPT-medium",
+//       // model:"gpt2",
+//       maxRetries: 2,
+//       // timeout: 15000, // Reduced timeout
+//       // provider:"hf-inference",
+//       maxTokens: 512,
+//       temperature: 0.1,
+//   //  endpointUrl: "https://router.huggingface.co/hf-inference/v1/chat/completions"
+//    endpointUrl:"https://router.huggingface.co/novita/v3/openai/chat/completions"
+//     });
 
 
 // const freeModelOptions = [

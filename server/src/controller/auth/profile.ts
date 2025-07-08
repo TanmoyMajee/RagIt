@@ -1,5 +1,6 @@
 import express, { Request, Response} from 'express';
 import prisma from '../../DataBase/db';
+import { number } from 'zod';
 // Extend Express Request type to include user
 declare global {
   namespace Express {
@@ -18,9 +19,10 @@ export const getProfile = async (req: Request, res: Response): Promise<void> => 
     }
 
     // Find user by ID (excluding password)
+    const uId = Number(req.user.id);//make it int
     const user = await prisma.user.findUnique({
       where:{
-        id:req.user.id
+        id:uId
       },
       select:{
         name:true,
@@ -43,6 +45,7 @@ export const getProfile = async (req: Request, res: Response): Promise<void> => 
     });
 
   } catch (error: any) {
+    console.log(error);
     res.status(500).json({
       msg: "Failed to retrieve profile",
       error: error.message

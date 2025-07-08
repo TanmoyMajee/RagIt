@@ -1,0 +1,90 @@
+{
+  "res": {
+    "input": " how do you rate him based on his cv , and can he get  a intership ",
+    "chat_history": [],
+    "context": [
+      {
+        "pageContent": "but also taught me the importance of user-centric design and \nreal-time data handling. Additionally, I developed a dynamic blog platform \nfeaturing user authentication, image uploads, and a commenting system,\n further solidifying my expertise in full-stack development.\nBeyond my academic pursuits, I have a strong inclination towards problem-\nsolving, evidenced by solving over 500 problems across\n various platforms, including 300+ on LeetCode. My participation in \ncompetitive programming has honed my analytical skills, \nwith a LeetCode max rating of 1511 and a Codeforces rating of 1002.\nI am eager to bring my technical skills and enthusiasm to [Company Name] \nand contribute to \nyour innovative projects. I would welcome the opportunity to discuss how",
+        "metadata": {
+          "source": "C:\\Rag_Pdf_Reader\\server\\src\\2.pdf",
+          "pdf": {
+            "version": "1.10.100",
+            "info": {
+              "PDFFormatVersion": "1.7",
+              "IsAcroFormPresent": false,
+              "IsXFAPresent": false,
+              "Creator": "Writer",
+              "Producer": "LibreOffice 24.8.1.2 (X86_64) / LibreOffice Community",
+              "CreationDate": "D:20250413064052Z'"
+            },
+            "metadata": null,
+            "totalPages": 1
+          },
+          "loc": {
+            "pageNumber": 1,
+            "lines": {
+              "from": 17,
+              "to": 28
+            }
+          }
+        },
+        "id": "7a637e0f-268e-44ab-bd9b-ae6fd3f9728c"
+      },
+      {
+        "pageContent": "and contribute to \nyour innovative projects. I would welcome the opportunity to discuss how \nmy background aligns with your team's goals.\nSincerely,\nTanmoy Majee",
+        "metadata": {
+          "source": "C:\\Rag_Pdf_Reader\\server\\src\\2.pdf",
+          "pdf": {
+            "version": "1.10.100",
+            "info": {
+              "PDFFormatVersion": "1.7",
+              "IsAcroFormPresent": false,
+              "IsXFAPresent": false,
+              "Creator": "Writer",
+              "Producer": "LibreOffice 24.8.1.2 (X86_64) / LibreOffice Community",
+              "CreationDate": "D:20250413064052Z'"
+            },
+            "metadata": null,
+            "totalPages": 1
+          },
+          "loc": {
+            "pageNumber": 1,
+            "lines": {
+              "from": 27,
+              "to": 31
+            }
+          }
+        },
+        "id": "5a14ab41-ad6b-4b70-a754-d3ec5ab83fa3"
+      },
+      {
+        "pageContent": "Tanmoy Majee\nKolkata, West Bengal, India\ntanmoymajee239@gmail.com\nGitHub : https://github.com/TanmoyMajee\nDear Hiring Manager\nI am writing to express my interest in the Software Developer intern \nposition . \nAs a third-year Computer Science student at Heritage Institute of \nTechnology, I have developed a strong\n foundation in backend development and am proficient in the MERN stack. My \npassion for creating scalable and efficient applications\n has driven me to undertake several projects that mirror real-world \nchallenges.\nOne of my notable projects is a real-time chat application built with \nReact, Node.js, Express, and MongoDB, incorporating Socket.IO for\n live message updates. This project not only enhanced my technical skills \nbut also taught me the importance of user-centric design and",
+        "metadata": {
+          "source": "C:\\Rag_Pdf_Reader\\server\\src\\2.pdf",
+          "pdf": {
+            "version": "1.10.100",
+            "info": {
+              "PDFFormatVersion": "1.7",
+              "IsAcroFormPresent": false,
+              "IsXFAPresent": false,
+              "Creator": "Writer",
+              "Producer": "LibreOffice 24.8.1.2 (X86_64) / LibreOffice Community",
+              "CreationDate": "D:20250413064052Z'"
+            },
+            "metadata": null,
+            "totalPages": 1
+          },
+          "loc": {
+            "pageNumber": 1,
+            "lines": {
+              "from": 1,
+              "to": 17
+            }
+          }
+        },
+        "id": "d07e4468-004d-4ff3-adbd-75aa4f62877b"
+      }
+    ],
+    "answer": "Based on the provided context, Tanmoy Majee appears to be a strong candidate for a Software Developer internship. Here's why:  \n\n1. **Technical Skills**: Proficient in the MERN stack, with hands-on experience in backend development, real-time applications (Socket.IO), and full-stack projects (dynamic blog platform).  \n2. **Problem-Solving**: Strong analytical skills, with 500+ problems solved (300+ on LeetCode) and competitive programming experience (LeetCode max rating: 1511).  \n3. **Projects**: Demonstrated ability to build scalable applications (real-time chat app, blog platform) with features like user authentication and real-time data handling.  \n4. **Initiative & Passion**: Clearly motivated by real-world challenges and eager to contribute to innovative projects.  \n\n**Rating**: 8.5/10 (Highly competitive for an internship, assuming the role aligns with his skills).  \n**Internship Likelihood**: Yes, he has a strong chance of securing an internship, especially at companies valuing full-stack development and problem-solving.  \n\n*Note:* The final decision would depend on company-specific requirements and interview performance, but his CV is impressive for an intern role."
+  }
+}

@@ -3,7 +3,7 @@ import express, { Request, Response , NextFunction} from 'express';
 import jwt from  'jsonwebtoken'
 
 interface JwtPayload {
-  id: string;
+  id: String;
   iat?: number;
   exp?: number;
 }
@@ -27,7 +27,6 @@ export const verifyUser = async (req:Request,res:Response,next:NextFunction)=>{
         const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
 
         // const user = await UserModel.findById(decoded._id);
-
         req.user = decoded; // Attach decoded user info to the request
         next();
       }catch(error : any){

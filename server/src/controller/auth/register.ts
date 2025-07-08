@@ -36,7 +36,7 @@ export const register = async (req:Request,res:Response) : Promise<void>=>{
       // await newUser.save();
 
       // Generate JWT token
-      const token = generateAuthToken(newUser.id.toString());
+      const token = generateAuthToken(newUser.id);
 
       // Respond with token and user info (excluding password)
       res.status(201).json({

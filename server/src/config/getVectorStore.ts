@@ -4,7 +4,7 @@ import { HuggingFaceTransformersEmbeddings } from "@langchain/community/embeddin
 import { url } from "inspector";
 
 
-export const getVectorStore = async(collectionName:string) : Promise<QdrantVectorStore> =>{
+export const getVectorStore = async(collectionName:string) : Promise<QdrantVectorStore | undefined> =>{
     try {
       const embeddings = new HuggingFaceTransformersEmbeddings({
         model: "Xenova/all-MiniLM-L6-v2",
@@ -22,6 +22,5 @@ export const getVectorStore = async(collectionName:string) : Promise<QdrantVecto
       return vectorStore;
     } catch (error) {
       console.log('Erro Geting Vector Store  ',error)
-      throw error;
     }
 }
