@@ -1,9 +1,15 @@
 import React from "react"
-
+import UploadBtn from './UploadBtn'
+import {} from 'lucide-react'
 const Upload: React.FC = () => {
   return (
-    <div className="bg-amber-500 w-1/4">
-         Upload Section
+    <div className="bg-gray-800 text-gray-200 w-1/4">
+
+        <h1 className="text-3xl   px-4 py-6">Uploads</h1>
+
+       <UploadBtn/>
+
+
     </div>
   )
 }
