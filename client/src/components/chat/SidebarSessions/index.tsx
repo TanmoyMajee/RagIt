@@ -1,14 +1,11 @@
 
 
-
-
-// import React from 'react'
 import {  Plus, Crown,User  } from 'lucide-react'
 import ConversationList from './ConversationList'
 
 export default function Sidebar() {
   return (
-    <div className=" bg-gray-800 text-white h-screen flex flex-col w-[300px]">
+    <div className=" bg-gray-900 text-white h-screen flex flex-col w-[300px]">
       {/* Header */}
       <div className="px-4 py-6 text-2xl font-bold border-b border-gray-700">
         RagIt

@@ -1,6 +1,6 @@
-import SessionBar from "../components/SidebarSessions"
-import CharArea from "../components/ChatArea"
-import Upload from "../components/UploadPanel"
+import SessionBar from "../components/chat/SidebarSessions"
+import CharArea from "../components/chat/ChatArea"
+import Upload from "../components/chat/UploadPanel"
 
 import React from "react"
 export const ChatPage: React.FC = ()=> {

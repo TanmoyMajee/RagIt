@@ -1,5 +1,5 @@
 import React from "react"
-import UploadBtn from './UploadBtn'
+import UploadBtn from './uploadBtn'
 import {} from 'lucide-react'
 const Upload: React.FC = () => {
   return (
