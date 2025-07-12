@@ -1,11 +1,11 @@
 import express , { Request, Response  } from 'express'
 import dotenv from 'dotenv';
+import cors from 'cors'
 dotenv.config();
 import pool from './config/db'
 import {CreateAllTable} from './config/createAllTable'
 import fileRouter from './routes/fileUpload'
 import queryRouter from './routes/querryRoutes'
-const app = express();
 import authRoutes from './routes/authRoutes'
 import prisma from './DataBase/db';
 import { getAllConversation } from './controller/conversation/getAllConversation';
@@ -13,8 +13,10 @@ import { verifyUser } from './middleware/verifyUser';
 import { ChatHistory } from './controller/conversation/ChatHistory';
 
 
+const app = express();
 // Middleware to parse JSON
 app.use(express.json()); 
+app.use(cors());
 
 
 app.get('/',async (req:Request,res:Response)=>{

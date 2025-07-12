@@ -4,16 +4,38 @@
 
 
 // client/src/pages/Login.tsx
-
-import { useState } from "react";
+import axios from "axios";
+import { useState ,useContext} from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const {login} = useContext(AuthContext);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(e)
+    console.log(e);
+   try {
+     const backendURL = import.meta.env.VITE_BACKEND_URL || "";
+     const respose = await axios.post(`${backendURL}/auth/login`, {
+       email,
+       password
+     })
+
+    //  console.log(respose.data);
+
+     if(respose.data){
+      // set the token in local storage then redict to chat page
+         login(respose.data.user,respose.data.token);
+      navigate('/chat');
+     }
+   } catch (error) {
+     console.error("Login error:", error);
+   }
+
     // now call the api and if suces se the user and redirect to chat 
   }
 

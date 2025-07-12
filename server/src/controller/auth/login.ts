@@ -43,7 +43,7 @@ export const login = async  (req: Request, res: Response): Promise<void> => {
       user: {
         _id: existingUser.id,
         email: existingUser.email,
-        name: existingUser.name 
+        name: existingUser.name ,
       }
     });
   } catch (error: any) {
