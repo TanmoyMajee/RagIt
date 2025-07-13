@@ -1,7 +1,7 @@
 
 
 
-import type { chatType } from "./chatDummyRespose"
+import type { chatType } from '../../../context/ChatContext';
 // import Chunks from './chunks'
 import ChunkItem from './chunks'
 // import {  } from "./chatDummyRespose"
@@ -9,7 +9,7 @@ type ChatListProps = {
   chats: chatType[];
 };
 const ChatList: React.FC<ChatListProps> = ({chats=[]})=>{
- console.log(chats.length);
+//  console.log(chats.length);
     return (
       <div className=" space-y-2 px-3 py-3   ">
           {

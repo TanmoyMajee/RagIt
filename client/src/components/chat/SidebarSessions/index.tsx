@@ -3,7 +3,12 @@
 import {  Plus, Crown,User  } from 'lucide-react'
 import ConversationList from './ConversationList'
 
+
+
 export default function Sidebar() {
+
+
+
   return (
     <div className=" bg-gray-900 text-white h-screen flex flex-col w-[300px]">
       {/* Header */}

@@ -1,7 +1,7 @@
 // src/components/ProtectedRoute.tsx
-import { ReactNode, useContext } from 'react';
+import type {ReactNode} from 'react'; 
 import { Navigate, useLocation } from 'react-router-dom';
-import { AuthContext } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -13,7 +13,7 @@ export default function ProtectedRoute({
   redirectTo = '/login' 
 }: ProtectedRouteProps) {
 
-  const { user , isLoading } = useContext(AuthContext);
+  const { user,token,isLoading } = useAuth();
   const location = useLocation();
 
   // Show loading while checking auth status
@@ -26,7 +26,8 @@ export default function ProtectedRoute({
   }
 
   // Redirect to login if not authenticated
-  if (!user) {
+  if (!user || !token) {
+    // console.log('NO Token or user fonm Protedte Rot',user,token);
     return (
       <Navigate 
         to={redirectTo} 

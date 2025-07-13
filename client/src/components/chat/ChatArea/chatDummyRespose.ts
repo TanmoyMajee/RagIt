@@ -1,15 +1,15 @@
 
-export interface chatType {
-  id:number,
-  content:string,
-  sender:string,
-  tokenCount?:number|undefined,
-  responseTime?: number | undefined,
-  contextChunks:string[],
-  modelUsed:string|undefined,
-  createdAt:string,
-  conversationId:number
-}
+// export interface chatType {
+//   id:number,
+//   content:string,
+//   sender:string,
+//   tokenCount?:number|undefined,
+//   responseTime?: number | undefined,
+//   contextChunks:string[],
+//   modelUsed:string|undefined,
+//   createdAt:string,
+//   conversationId:number
+// }
 
 export const respose:any = {
   "msg": "SuccessFully get the chat history ",
