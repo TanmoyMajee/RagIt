@@ -29,6 +29,15 @@ function App() {
             </ProtectedRoute>
           }
         />   
+
+        <Route
+          path="/chat/:sessionId"
+          element={
+            <ProtectedRoute>
+              <ChatPage />
+            </ProtectedRoute>
+          }
+        />   
         
         </Routes>
    </>
