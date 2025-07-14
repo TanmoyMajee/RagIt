@@ -9,7 +9,7 @@ const ConversationList = () => {
   
   const {selectedSession} = useChatAuth();
   const navigate = useNavigate();
-  const { AllConversations , setSelectedSession } = useChatAuth();
+  const { AllConversations } = useChatAuth();
 
   const handleSelectSession = (session:Conversation) => {
     // set the crrnt selected seion to the session id and navigate to taht page
