@@ -4,15 +4,41 @@
 // client/src/pages/Signup.tsx
 
 import { useState } from "react";
+import axios from "axios";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading,setLoading] = useState(false);
+  const {login} = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault();
-    console.log(e)
+    // console.log(e);
+    try {
+      setLoading(true);
+      const backendURL = import.meta.env.VITE_BACKEND_URL || "";
+      const respose = await axios.post(`${backendURL}/auth/register`, {
+        email,
+        password,
+        name,
+      })
+
+      //  console.log(respose.data);
+
+      if (respose.data) {
+        // set the token in local storage then redict to chat page
+        login(respose.data.user, respose.data.token);
+        setEmail(''); setName(''); setPassword('');
+        navigate('/chat');
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+    }finally{ setLoading(false); }
     // now call the api and if suces se the user and redirect to chat 
   }
 
@@ -58,10 +84,13 @@ const Signup = () => {
             />
           </div>
           <button
+            disabled={loading}
             type="submit"
             className="w-full bg-blue-700 text-white py-2 rounded-lg font-semibold hover:bg-blue-800 transition-colors"
           >
-            Sign Up
+            {
+              (!loading)? "Signup" : "loading wait"
+            }
           </button>
         </form>
         <div className="mt-4 text-center">

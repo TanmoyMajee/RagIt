@@ -28,10 +28,10 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@huggingface/inference": "^2.8.1",
-    "@huggingface/transformers": "^3.5.2",
+    "@huggingface/inference": "^4.5.1",
+    "@huggingface/transformers": "^3.6.3",
     "@langchain/community": "^0.3.48",
-    "@langchain/core": "^0.3.45",
+    "@langchain/core": "^0.3.62",
     "@langchain/qdrant": "^0.1.2",
     "@prisma/client": "^6.10.1",
     "@qdrant/js-client-rest": "^1.14.1",
