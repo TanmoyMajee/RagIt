@@ -28,12 +28,13 @@ app.get('/',async (req:Request,res:Response)=>{
 
 
 app.use('/api/auth',authRoutes);
-app.use('/file',fileRouter);
-app.use('/query',queryRouter);
-app.get('/api/chat/:id',verifyUser,ChatHistory); 
+app.use('/api/file',fileRouter);
+app.use('/api/query',queryRouter); 
+app.get('/api/chat/:id',verifyUser,ChatHistory);
+app.get('/api/conversation',verifyUser,getAllConversation)
 
 
-const startServer = async () => {
+const startServer = async () => { 
   // await CreateAllTable(); // Ensure tables exist Before atarting the server
   app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);

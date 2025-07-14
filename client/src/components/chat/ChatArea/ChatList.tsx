@@ -4,12 +4,33 @@
 import type { chatType } from '../../../context/ChatContext';
 // import Chunks from './chunks'
 import ChunkItem from './chunks'
+import { useChatAuth } from '../../../context/ChatContext';
 // import {  } from "./chatDummyRespose"
 type ChatListProps = {
   chats: chatType[];
 };
 const ChatList: React.FC<ChatListProps> = ({chats=[]})=>{
-//  console.log(chats.length);
+
+  const {selectedSession} = useChatAuth();
+
+// if no chat selets then return a div [ greeting text ]
+if(!selectedSession){
+  return(
+    <div className='text-end text-xl mt-20 mr-20 '>
+      please upload a file to start conversation 
+    </div>
+  )
+}
+
+// if chat is selcted but theer is no qur show enter yor qur
+if(chats.length == 0){
+  return(
+    <div>
+      enter your  query from this pdf files 
+    </div>
+  )
+}
+
     return (
       <div className=" space-y-2 px-3 py-3   ">
           {
@@ -20,7 +41,7 @@ const ChatList: React.FC<ChatListProps> = ({chats=[]})=>{
                   {/* for Ai  */}
                   {
                     elem.sender=="AI" && <div className={`w-[35px] h-[30px] rounded-full px-2 
-                     py-0.5 bg-gray-500 mr-1 `}>AI</div>
+                     py-0.5 bg-blue-300 text-gray-600 mr-1 `}>AI</div>
                   }
                   
                 

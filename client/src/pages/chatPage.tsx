@@ -10,7 +10,7 @@ import { useParams } from 'react-router-dom';
 export const ChatPage: React.FC = ()=> {
   const { sessionId } = useParams();
   const { user,token } = useAuth();
-  const {fetchSession , fetchChatHistory , setSelectedSession} = useChatAuth();
+  const {fetchSession , fetchChatHistory , setSelectedSession ,setChatHistory} = useChatAuth();
 
   // fecth all the session tile on first render or when user chage or when a new chat creatd
   useEffect(()=>{
@@ -24,6 +24,9 @@ export const ChatPage: React.FC = ()=> {
         await fetchChatHistory(parseInt(sessionId));
       };
       fetchData();
+    }else{ // clear the prev selectd chat history && make selected Session to null
+      setSelectedSession(null);
+      setChatHistory([]);
     }
     // else: do nothing or show a default UI
   }, [sessionId]);

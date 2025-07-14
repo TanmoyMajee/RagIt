@@ -60,13 +60,30 @@ export const getQueryAns = async (req:Request, res:Response) :Promise<void> => {
       }
     })
 
-    // const vectorStore = await getVectorStore(`conversation_${conversationsId}`);
-    const vectorStore = await getVectorStore('tanmoy_cv_001');
+    const collectionName = `conversation_${conversationsId}`;
+    const vectorStore = await getVectorStore(`conversation_${conversationsId}`);
+    // const vectorStore = await getVectorStore('tanmoy_cv_001');
 
     if(!vectorStore){
       res.status(200).json({msg: 'Vector store is not created Upload a file to satrt conversation'})
       return;
     }
+
+    // console.log("session : ",DbSession);
+    // console.log("vectore is :",vectorStore);
+
+    // Add this debugging code to verify collection contents
+    const collectionInfo = await vectorStore.client.getCollection(collectionName);
+    console.log('Collection info:', collectionInfo);
+
+    // Check if there are any points in the collection
+    const scrollResult = await vectorStore.client.scroll(collectionName, {
+      limit: 10,
+      with_payload: true,
+      with_vector: false
+    });
+    console.log('Documents in collection:', scrollResult.points.length);
+    
 
     console.log("🔍 Setting up retriever...");
     const retriever = vectorStore.asRetriever({
@@ -85,9 +102,9 @@ export const getQueryAns = async (req:Request, res:Response) :Promise<void> => {
       maxRetries: 2,
     });
 //     // Test the model with a simple prompt
-        console.log("🧪 Testing model...");
-      const result1 =   await llm.invoke("Hello, how are you?"); 
-      console.log(result1);
+      //   console.log("🧪 Testing model...");
+      // const result1 =   await llm.invoke("Hello, how are you?"); 
+      // console.log(result1);
         
     
 
@@ -106,7 +123,7 @@ Instructions:
 
 Answer:`);
 
-    console.log("🔗 Creating chains...");
+    console.log("🔗 Creating chains..."); 
     const documentChain = await createStuffDocumentsChain({
       llm,
       prompt,

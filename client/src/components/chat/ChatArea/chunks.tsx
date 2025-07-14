@@ -1,6 +1,13 @@
 
 import {useState} from 'react'
-function ChunkItem({ idx, text }) {
+
+type ChunkItemProps = {
+  idx: number;
+  text: string;
+};
+
+
+function ChunkItem({ idx, text }: ChunkItemProps) {
   const [open, setOpen] = useState(false)
   return (
     <div className="">

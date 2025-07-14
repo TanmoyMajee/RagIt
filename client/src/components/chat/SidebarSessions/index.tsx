@@ -1,13 +1,15 @@
 
 
-import {  Plus, Crown,User  } from 'lucide-react'
+import {  Plus, Crown,User } from 'lucide-react'
 import ConversationList from './ConversationList'
-
-
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../../context/AuthContext'
 
 export default function Sidebar() {
 
+  const {user} = useAuth();
 
+const navigate = useNavigate();
 
   return (
     <div className=" bg-gray-900 text-white h-screen flex flex-col w-[300px]">
@@ -17,7 +19,7 @@ export default function Sidebar() {
       </div>
 
       {/* New Chat */}
-      <button className="flex items-center px-4 py-2 mt-4 hover:bg-gray-700">
+      <button onClick={()=>navigate('/chat')}  className="flex items-center px-4 py-2 mt-4 hover:bg-gray-700 hover:cursor-pointer">
         <Plus className="mr-2" />
         New Chat
       </button>
@@ -35,7 +37,7 @@ export default function Sidebar() {
       <div className="border-t border-gray-700  px-4 py-4 space-y-2">
         <button className="flex items-center w-full hover:bg-gray-700 px-2 py-2 rounded">
           <User className="mr-2" />
-          Profile
+          {user?.name}
         </button>
         <button className="flex items-center w-full hover:bg-gray-700 px-2 py-2 rounded">
           <Crown className="mr-2 text-yellow-400" />

@@ -31,11 +31,14 @@ export interface ChatContextType {
   sessionLoading:boolean;
   selectedSession:number|null;
   // setSelectedSession: (session: Conversation | null) => void;
-  setSelectedSession: (id:number) => void;
+  setSelectedSession: (id:number|null) => void;
   fetchSession:()=>Promise<void>;
   fetchChatHistory: (id:number | null) => Promise<void>;
   chatHistory:chatType[];
   setChatHistory: React.Dispatch<React.SetStateAction<chatType[]>>;
+  AiResLoadin:boolean;
+  setAiResLoadin:(prev:boolean)=>void;
+  setAllConversations: React.Dispatch<React.SetStateAction<Conversation[]>>;
 }
 
 // Create the context with a default value (undefined for safety)
@@ -56,10 +59,11 @@ interface AuthProviderProps {
 
 export const ChatProvider: FC<AuthProviderProps> = ({ children }) => {
 
-  const [AllConversations, setAllConversations] = useState([]);
+  const [AllConversations, setAllConversations] = useState<Conversation[]>([]);
   const [selectedSession, setSelectedSession] = useState<number | null>(null);
   const [sessionLoading, setSessionLoading] = useState(false);
   const [chatHistory, setChatHistory] = useState<chatType[]>([]);
+  const [AiResLoadin,setAiResLoadin] = useState(false);
   const {token} = useAuth();
 
   // this will call when the chat page render so we should have token to call 
@@ -110,7 +114,10 @@ const fetchChatHistory = async(id:number | null)=>{
     selectedSession,
     fetchChatHistory,
     chatHistory,
-    setChatHistory
+    setChatHistory,
+    AiResLoadin,
+    setAiResLoadin,
+    setAllConversations
   };
 
   return (

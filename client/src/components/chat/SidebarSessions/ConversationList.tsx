@@ -1,5 +1,5 @@
 
-import { MessageSquare, } from "lucide-react";
+import { MessageSquare} from "lucide-react";
 import { useChatAuth } from '../../../context/ChatContext'
 import { useNavigate } from "react-router-dom";
 import type { Conversation } from "../../../context/ChatContext";

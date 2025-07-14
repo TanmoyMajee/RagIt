@@ -12,7 +12,7 @@ const CharArea: React.FC = () => {
 
   const [query,setQuery] = useState('');
   const scrollref = useRef<HTMLDivElement>(null);
-  const {chatHistory,setChatHistory,selectedSession} = useChatAuth();
+  const {chatHistory,setChatHistory,selectedSession,setAiResLoadin,AiResLoadin} = useChatAuth();
   const {token} = useAuth();
 
 
@@ -24,7 +24,7 @@ const CharArea: React.FC = () => {
     e.preventDefault();
 
     if (!selectedSession) {
-      alert("Please select a conversation first!");
+      alert("please enter a file to start conversation !");
       return;
     }
 
@@ -40,6 +40,7 @@ const CharArea: React.FC = () => {
     setQuery('');
     // call the qury api and apped the ap respose
     try {
+      setAiResLoadin(true);
       const backendURL = import.meta.env.VITE_BACKEND_URL;
       const respose = await axios.post(`${backendURL}/query`,{
         query: tmpQur,
@@ -54,6 +55,8 @@ const CharArea: React.FC = () => {
       setChatHistory(prev => [...prev, respose.data.AiRespose]);
     } catch (error) {
       console.log("Err while Geting the ai respsone",error);
+    }finally{
+      setAiResLoadin(false);
     }
     // again if succes then a
   }
@@ -62,7 +65,15 @@ const CharArea: React.FC = () => {
     <div className="flex-1 flex flex-col bg-gray-800 text-gray-200">
 
       <div className='flex-1 max-h-[650px] overflow-y-auto mt-4 '>
-        <ChatList chats={chatHistory} />
+        <ChatList chats={chatHistory}  />
+
+        {
+          AiResLoadin && <div className='flex gap-3 ml-3'>
+            <span className='w-[35px] h-[30px] px-2 py-0.5 rounded-full  bg-blue-300 text-gray-600'>AI</span>
+            <h1>Thinking...</h1>
+          </div>
+        }
+
         {/* empty div for auto scroll 1st renderr or whern new chat comes */}
         <div ref={scrollref} ></div>
         </div>

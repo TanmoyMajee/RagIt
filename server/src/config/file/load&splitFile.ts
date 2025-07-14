@@ -2,14 +2,19 @@
 import fs from 'fs';
 import path from 'path';
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
+// import { PDFPlumberLoader } from "langchain/document_loaders/fs/pdf_plumber";
+// import { UnstructuredPDFLoader } from "@langchain/community/document_loaders/fs/unstructured";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { Document } from "@langchain/core/documents"; // Adjust the import path if needed
+import { tr } from 'zod/dist/types/v4/locales';
 
-// 1 --> Write the file into a tmp file then return the path 
-// 2 --> feed the the to  loader to the documes 
+// 1 --> Write the file into a tmp file then return the path
+// 2 --> feed the the to  loader to the documes
 // 3 -- > dele the tmp file
-// 
-export const writeTmpFile = (buffer:Buffer,fileId:string) : string  =>{
+
+
+// always appeding .pdf but is should be memetype ***************** 
+export const writeTmpFile = (buffer:Buffer,fileId:string) : string  =>{ 
     try {
       const fielPath = path.join(process.cwd(),'src',`${fileId}.pdf`,);
       // now write into that file
@@ -22,6 +27,19 @@ export const writeTmpFile = (buffer:Buffer,fileId:string) : string  =>{
     }
 }
 
+export const deleteTmpFile = (fileId: string) => {
+    try{
+      const filePath = path.join(process.cwd(), 'src', `${fileId}.pdf`,);
+      if(fs.existsSync(filePath)){
+        fs.unlinkSync(filePath);
+        console.log('Temporary file deleted:', filePath);
+      }
+    }catch(err:any){
+      console.log('Erro While Writing the file Buffer into tmp :', err)
+      throw err; 
+    }
+}
+
 // NOW LOAD 
 
 export const load_Split_File =async (fielPath:string) : Promise<Document[]> =>{
@@ -30,6 +48,11 @@ export const load_Split_File =async (fielPath:string) : Promise<Document[]> =>{
   const loader = new PDFLoader(fielPath);
   const docs = await loader.load();
   console.log(`📊 Loaded ${docs.length} pages`);
+   if (docs.length > 0 && docs.some(doc => doc.pageContent.trim().length > 0)) {
+     console.log('✅ PDFLoader successful');
+   } else {
+     throw new Error('No content extracted');
+   }
   // console.log(docs);
 
 // Split documents
@@ -47,10 +70,8 @@ return splitDocs;
 }
  catch (error:any) {
     console.log('Error Wile Loading the File',error);
-    return []; 
+    // return []; 
+    throw error;
  }
 }
 
-export const deleteTmpFile = ()=>{
-
-}
