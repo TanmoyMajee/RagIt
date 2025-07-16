@@ -3,21 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    // Generates Prisma Client from your schema
     "generate": "npx prisma generate",
-
-    // Applies all pending migrations to your production DB
     "migrate": "npx prisma migrate deploy",
-
-    // Build: generate client + compile TS → dist/
     "build": "npm run generate && tsc",
-
-    // Start: apply migrations, then launch the compiled server
     "start": "npm run migrate && node dist/index.js",
-
-    // Local dev & testing
     "dev": "nodemon --exec ts-node src/index.ts",
-    // "test": "nodemon --exec ts-node src/t1.ts"
   },
   "keywords": [],
   "author": "",
