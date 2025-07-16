@@ -1,21 +1,8 @@
-/*
-  Warnings:
-
-  - You are about to drop the `test` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `user` table. If the table is not empty, all the data it contains will be lost.
-
-*/
 -- CreateEnum
 CREATE TYPE "Sender" AS ENUM ('HUMAN', 'AI');
 
 -- CreateEnum
 CREATE TYPE "FileStatus" AS ENUM ('PROCESSING', 'COMPLETED', 'FAILED', 'DELETED');
-
--- DropTable
-DROP TABLE "test";
-
--- DropTable
-DROP TABLE "user";
 
 -- CreateTable
 CREATE TABLE "users" (
@@ -25,6 +12,7 @@ CREATE TABLE "users" (
     "password" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "image" TEXT,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
@@ -49,8 +37,6 @@ CREATE TABLE "files" (
     "fileSize" INTEGER,
     "downloadUrl" TEXT NOT NULL,
     "imageUrl" TEXT,
-    "status" "FileStatus" NOT NULL DEFAULT 'PROCESSING',
-    "chunkCount" INTEGER NOT NULL DEFAULT 0,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "userId" INTEGER NOT NULL,
