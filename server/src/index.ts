@@ -16,7 +16,7 @@ import { ChatHistory } from './controller/conversation/ChatHistory';
 const app = express();
 // Middleware to parse JSON
 app.use(express.json()); 
-app.use(cors());
+app.use(cors()); 
 
 
 app.get('/',async (req:Request,res:Response)=>{
