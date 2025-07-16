@@ -18,7 +18,7 @@ export const login = async  (req: Request, res: Response): Promise<void> => {
     const { email, password } = loginSchema.parse(req.body);
 
     // Find user by email
-    const existingUser =await prisma.User.findUnique({
+    const existingUser =await prisma.user.findUnique({
       where : {email : email}
     });
     if (!existingUser) {
