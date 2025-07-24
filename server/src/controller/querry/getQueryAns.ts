@@ -10,6 +10,7 @@ import { ChatPromptTemplate } from "@langchain/core/prompts";
 import {z} from 'zod';
 import prisma from '../../DataBase/db';
 import {CustomHuggingFaceLLM} from '../../config/customLLM'
+import { HumanMessage } from '@langchain/core/messages';
 // import { LLM } from "@langchain/core/language_models/llms";
 
 // import { ChatHuggingFace } from "@langchain/community/chat_models/huggingface";
@@ -30,7 +31,8 @@ const querySchema = z.object({
 
 
 export const getQueryAns = async (req:Request, res:Response) :Promise<void> => {
- 
+  
+  let HumanMsg , AiRespose;
   try {
 
     const { query, conversationsId } = querySchema.parse(req.body);
@@ -50,15 +52,7 @@ export const getQueryAns = async (req:Request, res:Response) :Promise<void> => {
       return;
     }
 
-    // entry in DB for Human
-    const HumanMsg = await prisma.message.create({
-      data:{
-        content:query,
-        sender:"HUMAN",
-        conversationId:conversationsId
-        // contex will generate form quadrant result so while sotring the res msg we store the contex
-      }
-    })
+
 
     const collectionName = `conversation_${conversationsId}`;
     const vectorStore = await getVectorStore(`conversation_${conversationsId}`);
@@ -140,7 +134,18 @@ Answer:`);
 
     // entry in DB for Ai response
     const context = result.context.map(item => item.pageContent);
-    const AiRespose = await prisma.message.create({
+
+        // entry in DB for Human
+     HumanMsg = await prisma.message.create({
+      data:{
+        content:query,
+        sender:"HUMAN",
+        conversationId:conversationsId
+        // contex will generate form quadrant result so while sotring the res msg we store the contex
+      }
+    })
+
+     AiRespose = await prisma.message.create({
       data: {
         content: result.answer,
         sender: "AI",
@@ -159,6 +164,22 @@ Answer:`);
     if (err instanceof z.ZodError) {
       res.status(400).json({ message: "Validation error", errors: err.errors });
       return;
+    }
+    // if any err ocr duing db push the roolback
+    if(HumanMsg){
+      await prisma.message.delete({
+        where:{
+          id:HumanMsg.id
+        }
+      })
+    }
+
+     if(AiRespose){
+      await prisma.message.delete({
+        where:{
+          id:AiRespose.id
+        }
+      })
     }
 
     console.log('Error in Query Route:', err);
