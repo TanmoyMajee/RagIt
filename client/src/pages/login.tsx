@@ -8,6 +8,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -31,9 +32,11 @@ const Login = () => {
      if(respose.data){
       // set the token in local storage then redict to chat page
          login(respose.data.user,respose.data.token);
+         toast.success("Login SuccessFull ")
       navigate('/chat');
      }
    } catch (error) {
+    toast.error("Login Error");
      console.error("Login error:", error);
    }
 
@@ -42,12 +45,12 @@ const Login = () => {
 
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-blue-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-gray-900">
+      <div className="bg-gray-800 text-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center text-blue-700">Login to RagIT</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2">Email</label>
+            <label className="block mb-2">Email</label>
             <input
               type="email"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -58,7 +61,7 @@ const Login = () => {
             />
           </div>
           <div className="mb-6">
-            <label className="block text-gray-700 mb-2">Password</label>
+            <label className="block  mb-2">Password</label>
             <input
               type="password"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -76,7 +79,7 @@ const Login = () => {
           </button>
         </form>
         <div className="mt-4 text-center">
-          <span className="text-gray-600">Don't have an account?</span>
+          <span className="text-gray-300">Don't have an account?</span>
           <a href="/signup" className="text-blue-700 font-semibold ml-2 hover:underline">
             Sign up
           </a>
