@@ -26,7 +26,7 @@ export const createEmbeddings = async (): Promise<number[][]> => {
         method: "POST",
         headers: {
           // "Authorization": `Bearer ${process.env.API_KEY}`,
-          "Authorization": `Bearer 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`,
+          "Authorization": `Bearer ${process.env.API_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
