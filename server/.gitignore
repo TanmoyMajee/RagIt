@@ -5,4 +5,7 @@ tst.js
 config/firebase.ts
 /generated/prisma
 
+/src/model/
+/src/res.json
+
 /src/generated/prisma
