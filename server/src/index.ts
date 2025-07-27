@@ -3,8 +3,8 @@ import dotenv from 'dotenv';
 import cors from 'cors'
 dotenv.config();
 import pool from './config/db'
-import {CreateAllTable} from './config/createAllTable'
-import fileRouter from './routes/fileUpload'
+import {CreateAllTable} from './config/createAllTable'  
+import fileRouter from './routes/file'
 import queryRouter from './routes/querryRoutes'
 import authRoutes from './routes/authRoutes'
 import prisma from './DataBase/db';

@@ -4,8 +4,14 @@ import {useRef,useState} from 'react'
 import { useAuth } from '../../../context/AuthContext';
 import { useChatAuth } from '../../../context/ChatContext';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import type {FileType} from './File'
 
-const UploadBtn = ()=>{
+type UploadBtnProps = {
+  addNewFile: React.Dispatch<React.SetStateAction<FileType[]>>;
+};
+
+const UploadBtn: React.FC<UploadBtnProps> = ({ addNewFile }) => {
 const [file,setFile] = useState<FileList | null>(null)
 const [loading,setLoading] = useState(false)
 const {token} = useAuth();
@@ -41,14 +47,20 @@ const navigate = useNavigate();
           }
         })
         console.log(response);
+        if (response.data.file) {
+      addNewFile((prevFiles: FileType[]) => [...prevFiles, response.data.newFile]);
+      // If your backend returns an array, use: [...prevFiles, ...response.data.file]
+    }
         // now if the seletedSession is null then redirect to the newly created session form the respose and apppedn the created session in the list
         if(!selectedSession){
             setAllConversations(prev=>[...prev,response.data.conversation])
              navigate(`/chat/${response.data.conversation.id}`)
         }
+        toast.success('File Upload Succesfully')
         // else we are already in a session so no need to rdiret 
       } catch (error) {
           console.log("Error Uplaoin file",error);
+          toast.error('Cant Upload this File  :'); 
       }finally{
         setLoading(false);
         setFile(null); // ******** clean the state , no matter what happens , 
