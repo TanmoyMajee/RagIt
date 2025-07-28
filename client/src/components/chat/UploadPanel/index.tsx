@@ -133,13 +133,14 @@ import { useChatAuth } from "../../../context/ChatContext";
 import UploadBtn from './uploadBtn';
 import File from './File';
 import type { FileType } from './File';
+import { X } from "lucide-react";
 
 interface UploadProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const Upload: React.FC<UploadProps> = ({ isOpen, onClose }) => {
+const UploadPanel: React.FC<UploadProps> = ({ isOpen, onClose }) => {
   const { token } = useAuth();
   const { selectedSession } = useChatAuth();
   const [files, setFiles] = useState<FileType[]>([]);
@@ -174,9 +175,9 @@ const Upload: React.FC<UploadProps> = ({ isOpen, onClose }) => {
       <div className="md:hidden flex justify-end p-2">
         <button
           onClick={onClose}
-          className="p-2 text-gray-300 hover:text-white"
+          className="p-2 text-gray-300 hover:text-white "
         >
-          Close
+         <X/>
         </button>
       </div>
 
@@ -193,4 +194,4 @@ const Upload: React.FC<UploadProps> = ({ isOpen, onClose }) => {
   );
 };
 
-export default Upload;
+export default UploadPanel;

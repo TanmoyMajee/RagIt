@@ -61,7 +61,7 @@ import { Plus, Crown, User } from 'lucide-react'
 import ConversationList from './ConversationList'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../../context/AuthContext'
-
+import { X } from 'lucide-react'
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
@@ -81,8 +81,8 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     >
       {/* Optional mobile close button */}
       <div className="md:hidden flex justify-end p-2">
-        <button onClick={onClose} className="p-1 text-gray-400 hover:text-white">
-          Close
+        <button onClick={onClose} className="p-1 text-gray-400 hover:text-white text-3xl">
+        <X/>
         </button>
       </div>
 
