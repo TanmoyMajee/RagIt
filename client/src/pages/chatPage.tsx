@@ -38,16 +38,17 @@ export const ChatPage: React.FC = () => {
 
   return (
     <div className="flex h-screen text-black relative">
+
       {/* Mobile toggles */}
       <div className="md:hidden fixed top-2 left-2 z-50 flex space-x-2">
         <button
-          onClick={() => setLeftOpen(true)}
+          onClick={() => setLeftOpen(prev => !prev)}
           className="p-2 bg-gray-800 text-white rounded"
         >
           <Menu />
         </button>
         <button
-          onClick={() => setRightOpen(true)}
+          onClick={() => setRightOpen(prev => !prev)}
           className="p-2 bg-gray-800 text-white rounded"
         >
           <Upload />
@@ -65,7 +66,9 @@ export const ChatPage: React.FC = () => {
       {/* Right panel (Upload) */}
       <UploadPanel isOpen={isRightOpen} onClose={() => setRightOpen(false)} />
 
-      {/* Overlays for mobile (now z-30, panels are z-40) */}
+      {/* Overlays for mobile (now z-30, panels are z-40) 
+        overlay cover the whole scren but less z index 
+      */}  
       {isLeftOpen && (
         <div
           className="fixed inset-0 bg-black opacity-50 z-30 md:hidden"
