@@ -15,7 +15,7 @@ export interface AuthContextType {
   token: string | null;
   isLoading: boolean;
   login: (userData: User, token: string) => void;
-  logout?: () => void;
+  logout: () => void;
   //   updateUser: (userData: Partial<User>) => void;
   //   updateToken: (newToken: string) => void;
 }
@@ -85,7 +85,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   };
 
   // Logout function
-  const logout = () => {
+  const logout = ()=> {
     // Clear context state
     setUser(null);
     setToken(null);
