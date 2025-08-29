@@ -30,6 +30,7 @@ export const verifyUser = async (req:Request,res:Response,next:NextFunction)=>{
         req.user = decoded; // Attach decoded user info to the request
         next();
       }catch(error : any){
+        console.log("Error in verify MiddleWare:",error)
         res.status(401).json({ msg: "Invalid or expired token" });
       }
   }else{

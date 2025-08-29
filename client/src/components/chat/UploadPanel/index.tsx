@@ -62,8 +62,10 @@ const UploadPanel: React.FC<UploadProps> = ({ isOpen, onClose }) => {
       <h1 className="text-3xl px-4 py-6">Uploads</h1>
       <UploadBtn addNewFile={setFiles} />
 
+      <h1 className="text-xl mt-2 ml-1">Files </h1>
+
       {/* File list */}
-      <div className="flex-grow overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-2 px-2 py-2 bg-gray-600">
+      <div className="flex-grow overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-2 px-2 py-2 bg-gray-600 ">
         {files.map((f, i) => (
           <File key={i} file={f} />
         ))}

@@ -95,7 +95,7 @@ const navigate = useNavigate();
      onClick={()=>inputRef.current?.click()}
      onDragOver={handleDrag}
      onDrop={handleDrop}
-     className=" flex flex-col justify-center items-center w-[350px] h-[140px] ml-3 bg-gray-600 border-2 border-dashed border-gray-300">
+     className=" flex flex-col justify-center items-center w-[240px] h-[140px] ml-2  bg-gray-600 border-2 border-dashed border-gray-300">
 
         <h1>Uploads</h1>
         <Upload size={40}/>
