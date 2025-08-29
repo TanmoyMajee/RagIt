@@ -155,6 +155,15 @@ Answer:`);
       }
     })
 
+    await prisma.conversation.update({
+      where:{
+        id:conversationsId
+      },
+      data:{
+        queryCount:{increment:1}
+      }
+    })
+
     res.status(200).json({ res: result , HumanMsg : HumanMsg , AiRespose:AiRespose });
     // res.send(result1);
 
