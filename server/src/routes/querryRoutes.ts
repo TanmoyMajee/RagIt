@@ -3,10 +3,11 @@ const router = express.Router();
 
 import { getQueryAns } from '../controller/querry/getQueryAns';
 import { verifyUser } from '../middleware/verifyUser';
+import { checkQueryLimit } from '../middleware/checkQueryLimit';
 import {getAllConversation} from '../controller/conversation/getAllConversation'
 
 
-router.post('/',verifyUser, getQueryAns);
+router.post('/',verifyUser,checkQueryLimit, getQueryAns);
 
 // router.get('/',getAllConversation)
 
