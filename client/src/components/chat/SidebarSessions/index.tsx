@@ -14,6 +14,12 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const { user } = useAuth()
   const navigate = useNavigate()
 
+  const handleProPlan=()=>{
+    if(user?.plan != "FREE")return;
+    // redirect to strpe page 
+      window.location.href= "https://buy.stripe.com/test_8x25kEgbBaM3bHddxEfIs00";
+  }
+
   return (
     <div
       className={
@@ -55,9 +61,14 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           <User className="mr-2" />
           {user?.name}
         </button>
-        <button className="flex items-center w-full hover:bg-gray-700 px-2 py-2 rounded">
+
+        <button
+          onClick={handleProPlan}
+          className="flex items-center w-full hover:bg-gray-700 px-2 py-2 rounded">
           <Crown className="mr-2 text-yellow-400" />
-          Upgrade Plan
+          {
+            user?.plan=="FREE"?"UPGRADE TO PRO":"PRO"
+          }
         </button>
       </div>
     </div>

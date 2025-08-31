@@ -1,6 +1,20 @@
 // import React from 'react';
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const PricingSection = () => {
+
+  const {user} = useAuth();
+  const navigate  = useNavigate();
+
+  const handleProUpgrade  = ()=>{
+     if (!user) {
+    navigate("/login");
+  } else {
+    window.location.href = "https://buy.stripe.com/test_8x25kEgbBaM3bHddxEfIs00";
+  }
+  }
+  
   const plans = [
     {
       name: "Free",
@@ -32,7 +46,7 @@ const PricingSection = () => {
         "Export conversation history",
         "API access"
       ],
-      buttonText: "Coming Soon",
+      buttonText: "Upgrade to Pro",
       buttonClass: "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white",
       popular: true,
       badge: "Most Popular"
@@ -115,19 +129,22 @@ const PricingSection = () => {
               </div>
 
               {/* CTA Button */}
-              <button
-                className={`w-full py-4 px-6 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 ${plan.buttonClass} ${plan.name === 'Pro' ? 'cursor-not-allowed opacity-75' : ''
-                  }`}
-                disabled={plan.name === 'Pro'}
-              >
-                {plan.buttonText}
-                {plan.name === 'Pro' && (
-                  <span className="ml-2 text-xs bg-white/20 px-2 py-1 rounded">
-                    Soon
-                  </span>
-                )}
-              </button>
-            </div>
+              {plan.name === 'Pro' ? (
+  <button
+    onClick={handleProUpgrade}
+    className={`w-full py-4 px-6 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 ${plan.buttonClass}`}
+  >
+    {plan.buttonText}
+  </button>
+) : (
+  <button
+    className={`w-full py-4 px-6 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 ${plan.buttonClass}`}
+  >
+    {plan.buttonText}
+  </button>
+)}
+
+            </div> 
           ))}
         </div>
 

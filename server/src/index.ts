@@ -11,6 +11,7 @@ import prisma from './DataBase/db';
 import { getAllConversation } from './controller/conversation/getAllConversation';
 import { verifyUser } from './middleware/verifyUser';
 import { ChatHistory } from './controller/conversation/ChatHistory';
+import stripeRoute from './routes/stripe'
 
 
 const app = express();
@@ -32,7 +33,7 @@ app.use('/api/file',fileRouter);
 app.use('/api/query',queryRouter); 
 app.get('/api/chat/:id',verifyUser,ChatHistory);
 app.get('/api/conversation',verifyUser,getAllConversation)
-
+app.use('/api/stripe',stripeRoute)
 
 const startServer = async () => { 
   // await CreateAllTable(); // Ensure tables exist Before atarting the server

@@ -44,6 +44,7 @@ export const login = async  (req: Request, res: Response): Promise<void> => {
         _id: existingUser.id,
         email: existingUser.email,
         name: existingUser.name ,
+        plan:existingUser.plan
       }
     });
   } catch (error: any) {

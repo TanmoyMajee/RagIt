@@ -7,7 +7,7 @@ export interface User {
   id: number;
   name: string;
   email: string;
-
+  plan:string
 }
 
 export interface AuthContextType {

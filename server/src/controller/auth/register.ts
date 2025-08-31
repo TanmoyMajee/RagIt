@@ -45,7 +45,8 @@ export const register = async (req:Request,res:Response) : Promise<void>=>{
         user: {
           _id: newUser.id,
           email: newUser.email,
-          name: newUser.name
+          name: newUser.name,
+          plan:newUser.plan
         }
       });
       return;
