@@ -87,11 +87,14 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   // Logout function
   const logout = ()=> {
     // Clear context state
+     const confirmLogout = window.confirm("Are you sure you want to logout?");
+     if(confirmLogout){
     setUser(null);
     setToken(null);
     // Clear localStorage
     localStorage.removeItem('user');
     localStorage.removeItem('token');
+     }
 
     // Optional: Call logout API
     // logoutAPI();

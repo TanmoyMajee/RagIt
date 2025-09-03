@@ -4,14 +4,14 @@ import { Plus, Crown, User } from 'lucide-react'
 import ConversationList from './ConversationList'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../../context/AuthContext'
-import { X } from 'lucide-react'
+import { X ,LogOut  } from 'lucide-react'
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
-  const { user } = useAuth()
+  const { user ,logout  } = useAuth()
   const navigate = useNavigate()
 
   const handleProPlan=()=>{
@@ -19,6 +19,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     // redirect to strpe page 
       window.location.href= "https://buy.stripe.com/test_8x25kEgbBaM3bHddxEfIs00";
   }
+
 
   return (
     <div
@@ -56,10 +57,13 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       </div>
 
       {/* Footer Actions */}
-      <div className="border-t border-gray-700 px-4 py-4 space-y-2">
-        <button className="flex items-center w-full hover:bg-gray-700 px-2 py-2 rounded">
+      <div
+        onClick={logout}
+      className="border-t border-gray-700 px-4 py-4 space-y-2">
+        <button className="flex items-center w-full hover:bg-gray-700 px-2 py-2 rounded group">
           <User className="mr-2" />
           {user?.name}
+          <LogOut className="ml-25 opacity-0 group-hover:opacity-100 transition-opacity duration-200"/>
         </button>
 
         <button
