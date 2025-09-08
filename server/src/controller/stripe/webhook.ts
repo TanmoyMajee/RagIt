@@ -23,9 +23,10 @@ export const handleStripeWebhook = async (req: Request, res: Response) :Promise<
     const session = event.data.object as Stripe.Checkout.Session;
     const userId = Number(session.metadata?.userId);
     if (userId) {
+      const expiryDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days in ms
       await prisma.user.update({
         where: { id: userId },
-        data: { plan: "PREMIUM" },
+        data: { plan: "PREMIUM" , planExpiry:expiryDate},
       });
     }
   }

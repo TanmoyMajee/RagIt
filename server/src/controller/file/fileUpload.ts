@@ -53,7 +53,11 @@ export const fileUploadController =async (req: Request, res: Response) : Promise
   
     // Step 1: Handle conversation creation/validation
 
-
+    const user = await prisma.user.findUnique({where:{id:req.user.id}})
+    if(!user){
+       res.status(404).json({msg:"User Not Found"})
+       return
+    }
     // Step 1: Handle conversation creation/validation
     if (!conversationId) {
       // Create new conversation (first file upload)
@@ -189,6 +193,24 @@ try {
     // now del the file form sr dir
     deleteTmpFile(newFile.filename);
 
+    // Update the cnt of session cnt to trk the plan
+    const today = new Date().toISOString().slice(0, 10);
+    
+const lastSessionDay = new Date(user.lastSessionDate).toISOString().slice(0, 10);
+
+if (lastSessionDay === today) {
+  // Same day: increment count
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { sessionCount: { increment: 1 } }
+  });
+} else {
+  // New day: reset count and update date
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { sessionCount: 1, lastSessionDate: new Date() }
+  });
+}
   res.status(200).json({
     msg: 'File uploaded successfully',
     file: {
