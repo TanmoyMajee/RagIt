@@ -32,7 +32,7 @@ const Signup = () => {
 
       if (respose.data) {
         // set the token in local storage then redict to chat page
-        login(respose.data.user, respose.data.token);
+        login(respose.data.token);
         setEmail(''); setName(''); setPassword('');
         navigate('/chat');
       }

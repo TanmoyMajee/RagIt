@@ -31,7 +31,7 @@ const Login = () => {
 
      if(respose.data){
       // set the token in local storage then redict to chat page
-         login(respose.data.user,respose.data.token);
+         await login(respose.data.token);
          toast.success("Login SuccessFull ")
       navigate('/chat');
      }

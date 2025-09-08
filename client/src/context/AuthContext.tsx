@@ -1,6 +1,7 @@
 
 import { createContext, useState, useEffect , useContext } from 'react';
 import type { ReactNode, FC } from 'react';
+import axios from 'axios';
 // Define the shape of your auth context value
 
 export interface User {
@@ -14,7 +15,7 @@ export interface AuthContextType {
   user: User | null;
   token: string | null;
   isLoading: boolean;
-  login: (userData: User, token: string) => void;
+  login: (token: string) => void;
   logout: () => void;
   //   updateUser: (userData: Partial<User>) => void;
   //   updateToken: (newToken: string) => void;
@@ -42,40 +43,40 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState<string | null>(null);
 
-  // Initialize auth state from localStorage on app load
+  
+    // Fetch user info from backend
+  const fetchUser = async (jwtToken: string) => {
+    try {
+      const backendURL = import.meta.env.VITE_BACKEND_URL || "";
+      const res = await axios.get(`${backendURL}/auth/profile`, {
+        headers: { Authorization: `Bearer ${jwtToken}` }
+      });
+      console.log(res);
+      setUser(res.data.user);
+    } catch (error) {
+      setUser(null);
+      setToken(null);
+      localStorage.removeItem('token');
+    }
+  };
+
+   // On app load, check for token and fetch user info
   useEffect(() => {
-    const initializeAuth = () => {
-      try {
-        const storedUser = localStorage.getItem('user');
-        const storedToken = localStorage.getItem('token');
-
-        if (storedUser && storedToken) {
-          const userData = JSON.parse(storedUser);
-          setUser(userData);
-          setToken(storedToken);
-        }
-      } catch (error) {
-        console.error('Error initializing auth:', error);
-        // Clear potentially corrupted data
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    initializeAuth();
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      setToken(storedToken);
+      fetchUser(storedToken).finally(() => setIsLoading(false));
+    } else {
+      setIsLoading(false);
+    }
   }, []);
 
-
-  const login = (userData: User, token: string) => {
+  const login = async( token: string) : Promise<void> => {
     try {
-      // Update context state
-      setUser(userData);
       setToken(token);
       // Persist to localStorage
-      localStorage.setItem('user', JSON.stringify(userData));
       localStorage.setItem('token', token);
+      await fetchUser(token);
       // console.log("Log in Login :",user,token);
 
     } catch (error) {
@@ -85,7 +86,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   };
 
   // Logout function
-  const logout = ()=> {
+  const logout = ()=> { 
     // Clear context state
      const confirmLogout = window.confirm("Are you sure you want to logout?");
      if(confirmLogout){
@@ -100,28 +101,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     // logoutAPI();
   };
 
-  // const updateUser = (userData: Partial<User>) => {
-  //   if (user) {
-  //     const updatedUser = { ...user, ...userData };
-  //     setUser(updatedUser);
 
-  //     // Sync with localStorage
-  //     localStorage.setItem('user', JSON.stringify(updatedUser));
-  //   }
-  // };
-
-  //  // Update token function (for token refresh scenarios)
-  // const updateToken = (newToken: string) => {
-  //   try {
-  //     setToken(newToken);
-  //     localStorage.setItem('token', newToken);
-  //   } catch (error) {
-  //     console.error('Error updating token:', error);
-  //   }
-  // };
-
-  // Computed values
-  // const isAuthenticated = !!user;
 
   const val: AuthContextType = {
     user,
@@ -148,3 +128,29 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 // localStorage is not reactive - React doesn't know when localStorage changes
 // If you directly check localStorage in components, they won't re-render when auth state changes
 // Example: User logs out in one tab, other tabs won't update automatically
+
+
+// // Initialize auth state from localStorage on app load
+  // useEffect(() => {
+  //   const initializeAuth = () => {
+  //     try {
+  //       const storedUser = localStorage.getItem('user');
+  //       const storedToken = localStorage.getItem('token');
+
+  //       if (storedUser && storedToken) {
+  //         const userData = JSON.parse(storedUser);
+  //         setUser(userData);
+  //         setToken(storedToken);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error initializing auth:', error);
+  //       // Clear potentially corrupted data
+  //       localStorage.removeItem('user');
+  //       localStorage.removeItem('token');
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+
+  //   initializeAuth();
+  // }, []);

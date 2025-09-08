@@ -57,10 +57,8 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       </div>
 
       {/* Footer Actions */}
-      <div
-        onClick={logout}
-      className="border-t border-gray-700 px-4 py-4 space-y-2">
-        <button className="flex items-center w-full hover:bg-gray-700 px-2 py-2 rounded group">
+      <div className="border-t border-gray-700 px-4 py-4 space-y-2">
+        <button onClick={logout} className="flex items-center w-full hover:bg-gray-700 px-2 py-2 rounded group">
           <User className="mr-2" />
           {user?.name}
           <LogOut className="ml-25 opacity-0 group-hover:opacity-100 transition-opacity duration-200"/>
