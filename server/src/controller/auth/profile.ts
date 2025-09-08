@@ -20,7 +20,7 @@ export const getProfile = async (req: Request, res: Response): Promise<void> => 
 
     // Find user by ID (excluding password)
     const uId = Number(req.user.id);//make it int
-    const user = await prisma.user.findUnique({
+    let user = await prisma.user.findUnique({
       where:{
         id:uId
       },
@@ -28,6 +28,8 @@ export const getProfile = async (req: Request, res: Response): Promise<void> => 
         name:true,
         email:true,
         id:true,
+        plan:true,
+        planExpiry:true,
         createdAt: true,
         updatedAt:true
       }
@@ -37,6 +39,29 @@ export const getProfile = async (req: Request, res: Response): Promise<void> => 
       res.status(404).json({ msg: "User not found" });
       return;
     }
+
+    // Chek if the user has premimun plan then chk expires or not , then update
+      if (user.plan === "PREMIUM" && user.planExpiry && new Date(user.planExpiry) < new Date()) {
+    user = await prisma.user.update({
+      where: { id: user.id },
+      data: { plan: "FREE", planExpiry: null }
+    });
+
+     // Re-fetch user with selected fields
+  user = await prisma.user.findUnique({
+    where: { id: user.id },
+    select: {
+      name: true,
+      email: true,
+      id: true,
+      plan: true,
+      planExpiry: true,
+      createdAt: true,
+      updatedAt: true
+    }
+  });
+  
+  }
 
     // Return user profile data
     res.status(200).json({
