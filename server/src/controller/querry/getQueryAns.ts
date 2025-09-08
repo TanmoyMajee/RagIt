@@ -59,7 +59,7 @@ export const getQueryAns = async (req:Request, res:Response) :Promise<void> => {
     // const vectorStore = await getVectorStore('tanmoy_cv_001');
 
     if(!vectorStore){
-      res.status(200).json({msg: 'Vector store is not created Upload a file to satrt conversation'})
+      res.status(500).json({msg: 'Vector store is not created Upload a file to satrt conversation'})
       return;
     }
 
