@@ -25,4 +25,47 @@ So overall, LangChain made it easy to orchestrate the whole flow — from loadin
   	
 **10.	what is HuggingFace , what is the role in yr project?**
 >  Hugging Face is a popular platform for hosting and sharing machine learning mode In my project, I used their embedding model Xenova/all-MiniLM-L6-v2 (a sentence transformer) to convert document chunks and user queries into vectors, and their LLM (DeepSeek) to generate natural language answers. So, HuggingFace powered both the embedding generation and the answer generation parts of my RAG pipeline
-   	
+
+
+**How I Implemented the Retrieval Chain:**
+
+*Initialization:*
+>I began by initializing the LLM model and setting up a ChatPromptTemplate (a LangChain class) that defines how the model should respond — for example, to be concise and mention when there isn’t enough information in the context.
+
+*Document Chain:*
+>Then I used the createStuffDocumentsChain() function from LangChain. This function combines the LLM and the prompt into a single chain that processes the retrieved documents and generates a context-aware response.
+
+*Retrieval Chain:*
+>After that, I used the createRetrievalChain() function, which connects the document chain with a retriever (from the vector store). The retriever is responsible for fetching the most relevant document chunks from the vector database.
+
+*Execution:*
+>Finally, I invoked the retrievalChain by passing the user’s query as input. The chain first retrieves the relevant context using the retriever, then passes it through the document chain to generate a final answer.
+
+**Challanges to  INtegrate AI Model **
+>In my project, I utilized two primary AI models. First, I used the Hugging Face Sentence Transformer to generate embeddings, which helped in converting text into meaningful vector representations. Secondly, I leveraged the DeepSeek LLM to generate the final responses.
+
+>In my project, I first used LangChain’s default HuggingFaceInference class. Later, Hugging Face updated their system to use something called “Inference Providers,” where you have to mention the provider name (like novita or together) in the API request. The default class didn’t allow adding a custom provider name, so it stopped working properly with the new setup.
+
+>To solve this, I built my own custom LLM class where I could set the provider, endpoint, headers, and retry logic manually. This made the integration work smoothly with Hugging Face’s updated policy.
+
+
+
+
+
+
+**What is Prisma & Why did u use it **
+>Prisma is an open-source ORM (Object Relational Mapping tool) that lets us write database queries in JavaScript or TypeScript instead of raw SQL, making them more readable and type-safe. It also simplifies migrations, helping us manage schema changes effortlessly and reducing errors. 
+
+
+
+**15.	If I upload a very large PDF, how does your system handle it?**
+>If a very large document is uploaded, the first step is file handling.
+I use Multer with memoryStorage in my Node.js backend to temporarily store the uploaded PDF in memory.
+Then LangChain’s PDFLoader extracts the text, and a RecursiveCharacterTextSplitter breaks it into smaller overlapping chunks.
+Each chunk gets its own embedding vector and is stored in Qdrant.
+Because we only retrieve a few most relevant chunks when answering, the size of the PDF doesn’t slow down the query or overload the model.
+This chunking and retrieval strategy lets the system handle very large documents efficiently within the LLM’s context limits.
+
+24.	How do you avoid LLM hallucination — ensuring answers come from the PDF?
+>To avoid LLM hallucination and ensure answers come only from the PDF, I use a retrieval-augmented generation (RAG) setup. First, I convert the PDF into vector embeddings and store them in a vector database (Qdrant). Then, when a user asks a question, a retriever fetches only the most relevant chunks from the PDF. The LLM receives both the query and these retrieved chunks as context. I also use a prompt template that instructs the LLM to answer only using the provided context and to respond with “I don’t have enough information” if the context is insufficient. This way, the LLM is grounded in the PDF content and doesn’t make up information.
+
